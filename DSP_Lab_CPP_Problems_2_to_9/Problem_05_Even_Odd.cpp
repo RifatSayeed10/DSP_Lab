@@ -1,51 +1,54 @@
-// Problem 05: Even and odd components.
-// Same logic as C: xe[n] = (x[n]+x[-n])/2; xo[n] = (x[n]-x[-n])/2.
+
 #include <iostream>
-#include <iomanip>
-#include <vector>
 using namespace std;
 
-int sample_at(const vector<int>& x, int ns, int ne, int n) {
-    if (n < ns || n > ne) return 0;
-    return x[n - ns];
-}
-
 int main() {
-    const int MAX = 100;
-    int x_size, org, ns, ne, L;
-    cout << "Enter number of samples of signal: ";
-    if (!(cin >> x_size) || x_size < 1 || x_size > MAX) return 1;
+    int size, start;
 
-    vector<int> x(x_size);
-    cout << "Enter the samples of signal:\n";
-    for (int i = 0; i < x_size; i++) {
-        cout << "Enter sample: ";
-        if (!(cin >> x[i])) return 1;
-    }
-    cout << "Enter the sample no. which is the origin (1 to " << x_size << "): ";
-    if (!(cin >> org) || org < 1 || org > x_size) return 1;
+    double x[201] = {0};
+    double even[401] = {0};
+    double odd[401] = {0};
 
-    ns = -(org - 1);
-    ne = ns + x_size - 1;
-    L = (-ns > ne) ? -ns : ne;
-    vector<double> xe(2 * L + 1, 0.0), xo(2 * L + 1, 0.0);
+    cout << "Enter signal size: ";
+    cin >> size;
 
-    for (int n = -L; n <= L; n++) {
-        xe[n + L] = (sample_at(x, ns, ne, n) + sample_at(x, ns, ne, -n)) / 2.0;
-        xo[n + L] = (sample_at(x, ns, ne, n) - sample_at(x, ns, ne, -n)) / 2.0;
+    cout << "Enter starting index: ";
+    cin >> start;
+
+    if (size < 1 || size > 100) {
+        cout << "Invalid size";
+        return 0;
     }
 
-    cout << "\nOriginal signal:\n";
-    for (int i = 0; i < x_size; i++) cout << "x[" << ns + i << "] = " << x[i] << "\n";
-    cout << fixed << setprecision(1);
-    cout << "\nEven component:\n";
-    for (int n = -L; n <= L; n++) cout << "xe[" << n << "] = " << xe[n + L] << "\n";
-    cout << "\nOdd component:\n";
-    for (int n = -L; n <= L; n++) cout << "xo[" << n << "] = " << xo[n + L] << "\n";
-    cout << "\nVerification (xe + xo = x):\n";
-    for (int n = -L; n <= L; n++) {
-        cout << "n=" << n << " : " << xe[n + L] << " + " << xo[n + L]
-             << " = " << xe[n + L] + xo[n + L] << "\n";
+    cout << "Enter signal values: ";
+    for (int i = 0; i < size; i++) {
+        cin >> x[i];
     }
+
+    int end = start + size - 1;
+
+    int new_start = min(start, -end);
+    int new_end = max(end, -start);
+
+    cout << "\nn\tEven\tOdd\n";
+
+    for (int n = new_start; n <= new_end; n++) {
+        double xn = 0, xneg = 0;
+
+        if (n >= start && n <= end) {
+            xn = x[n - start];
+        }
+
+        if (-n >= start && -n <= end) {
+            xneg = x[-n - start];
+        }
+
+        double even = (xn + xneg) / 2.0;
+        double odd = (xn - xneg) / 2.0;
+
+        cout << n << "\t" << even
+             << "\t" << odd << endl;
+    }
+
     return 0;
 }
