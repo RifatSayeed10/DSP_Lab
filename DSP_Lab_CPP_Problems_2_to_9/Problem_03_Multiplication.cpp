@@ -1,42 +1,38 @@
-// Problem 03: Multiplication of two discrete-time signals.
-// Same logic as C: zero-pad shorter signal and multiply sample by sample.
+
 #include <iostream>
-#include <vector>
 using namespace std;
 
 int main() {
-    const int MAX = 100;
-    int x_size, y_size, z_size;
+    int n, m;
+    int x[100] = {0}, h[100] = {0};
+    int y[200] = {0};
 
-    cout << "Enter number of samples of first signal: ";
-    if (!(cin >> x_size) || x_size < 1 || x_size > MAX) return 1;
-    cout << "Enter number of samples of second signal: ";
-    if (!(cin >> y_size) || y_size < 1 || y_size > MAX) return 1;
+    cout << "Enter size of x: ";
+    cin >> n;
 
-    if (x_size > y_size) z_size = x_size;
-    else z_size = y_size;
+    cout << "Enter size of h: ";
+    cin >> m;
 
-    vector<int> x(z_size, 0), y(z_size, 0), z(z_size, 0);
-
-    cout << "Enter the samples of first signal:\n";
-    for (int i = 0; i < x_size; i++) {
-        cout << "Enter sample: ";
-        if (!(cin >> x[i])) return 1;
-    }
-    cout << "Enter the samples of second signal:\n";
-    for (int i = 0; i < y_size; i++) {
-        cout << "Enter sample: ";
-        if (!(cin >> y[i])) return 1;
+    cout << "Enter x values: ";
+    for (int i = 0; i < n; i++) {
+        cin >> x[i];
     }
 
-    for (int i = 0; i < z_size; i++) z[i] = x[i] * y[i];
+    cout << "Enter h values: ";
+    for (int i = 0; i < m; i++) {
+        cin >> h[i];
+    }
 
-    cout << "\nFirst signal samples: ";
-    for (int i = 0; i < x_size; i++) cout << x[i] << " ";
-    cout << "\nSecond signal samples: ";
-    for (int i = 0; i < y_size; i++) cout << y[i] << " ";
-    cout << "\nResultant signal samples after multiplication: ";
-    for (int i = 0; i < z_size; i++) cout << z[i] << " ";
-    cout << "\n";
+    int size = (n > m) ? n : m;
+
+    for (int i = 0; i < size; i++) {
+        y[i] = x[i] * h[i];
+    }
+
+    cout << "Multiplication Result: ";
+    for (int i = 0; i < size; i++) {
+        cout << y[i] << " ";
+    }
+
     return 0;
 }
