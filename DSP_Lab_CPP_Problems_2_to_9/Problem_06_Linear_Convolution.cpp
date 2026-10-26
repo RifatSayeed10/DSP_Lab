@@ -1,45 +1,44 @@
-// Problem 06: Linear convolution.
-// Same logic as C: zero-padding and y[i] += x[j] * h[i-j].
+
 #include <iostream>
-#include <vector>
 using namespace std;
 
 int main() {
-    const int MAX = 100;
-    int x_size, h_size, y_size, x_o, h_o, y_o;
+    int n, m;
 
-    cout << "Enter number of samples of x(n): ";
-    if (!(cin >> x_size) || x_size < 1 || x_size > MAX) return 1;
-    cout << "Enter number of samples of h(n): ";
-    if (!(cin >> h_size) || h_size < 1 || h_size > MAX) return 1;
+    cout << "Enter size of x: ";
+    cin >> n;
 
-    y_size = x_size + h_size - 1;
-    vector<int> x(y_size, 0), h(y_size, 0), y(y_size, 0);
-    cout << "Enter sample values of x(n):\n";
-    for (int i = 0; i < x_size; i++) {
-        cout << "Enter sample: ";
-        if (!(cin >> x[i])) return 1;
+    cout << "Enter size of h: ";
+    cin >> m;
+
+    int x[100] = {0};
+    int h[100] = {0};
+    int y[200] = {0};
+
+    cout << "Enter x values: ";
+    for (int i = 0; i < n; i++) {
+        cin >> x[i];
     }
-    cout << "Enter sample values of h(n):\n";
-    for (int i = 0; i < h_size; i++) {
-        cout << "Enter sample: ";
-        if (!(cin >> h[i])) return 1;
+
+    cout << "Enter h values: ";
+    for (int i = 0; i < m; i++) {
+        cin >> h[i];
     }
-    cout << "Enter starting index of x(n) [n value of 1st sample]: ";
-    if (!(cin >> x_o)) return 1;
-    cout << "Enter starting index of h(n) [n value of 1st sample]: ";
-    if (!(cin >> h_o)) return 1;
-    y_o = x_o + h_o;
+
+    int y_size = n + m - 1;
 
     for (int i = 0; i < y_size; i++) {
         y[i] = 0;
+
         for (int j = 0; j <= i; j++) {
-            y[i] += x[j] * h[i - j];
+            y[i] = y[i] + x[j] * h[i-j];
         }
     }
 
-    cout << "\nSample values of output: ";
-    for (int i = 0; i < y_size; i++) cout << y[i] << " ";
-    cout << "\nStarting index of output: " << y_o << "\n";
+    cout << "Convolution result: ";
+    for (int i = 0; i < y_size; i++) {
+        cout << y[i] << " ";
+    }
+
     return 0;
 }
