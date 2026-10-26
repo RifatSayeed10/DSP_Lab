@@ -1,13 +1,17 @@
-//circular convolution- the circle method
-#include <stdio.h>
-//ok
+
+#include <iostream>
+using namespace std;
+
 int main()
 {
     int i,j,n,x1_size,y_size,x2_size,sum=0,temp,x_o,y_o,h_o;
-    printf("Enter number of first signal samples: ");
-    scanf("%d",&x1_size);
-    printf("Enter number of second signal samples: ");
-    scanf("%d",&x2_size);
+
+    cout << "Enter number of first signal samples: ";
+    cin >> x1_size;
+
+    cout << "Enter number of second signal samples: ";
+    cin >> x2_size;
+
     if(x1_size>x2_size)
     {
         y_size=x1_size;
@@ -16,7 +20,8 @@ int main()
     {
         y_size=x2_size;
     }
-    int x1[y_size],x2[y_size],y[y_size];
+
+    int x1[100],x2[100],y[100];
 
     for(i=0;i<y_size;i++)
     {
@@ -24,24 +29,29 @@ int main()
         x2[i]=0;
         y[i]=0;
     }
-    printf("Enter first signal sequences: ");
+
+    cout << "Enter first signal sequences: ";
     for(i=0;i<x1_size;i++)
     {
-        scanf("%d",&x1[i]);
+        cin >> x1[i];
     }
-    printf("\nEnter second signal sequences: ");
+
+    cout << "\nEnter second signal sequences: ";
     for(i=0;i<x2_size;i++)
     {
-        scanf("%d",&x2[i]);
+        cin >> x2[i];
     }
-    for(i =0;i<y_size;i++)
+
+    for(i=0;i<y_size;i++)
     {
         temp=i;
         sum=0;
+
         for(j=0;j<y_size;j++)
         {
             sum=sum+x1[j]*x2[temp];
             temp--;
+
             if(temp<0)
             {
                 temp=y_size-1;
@@ -49,11 +59,13 @@ int main()
         }
         y[i]=sum;
     }
-    printf("\n\nCircular convolution result: ");
+
+    cout << "\n\nCircular convolution result: ";
     for(i=0;i<y_size;i++)
     {
-        printf("%d  ",y[i]);
+        cout << y[i] << "  ";
     }
-    printf("\n");
-return 0;
+
+    cout << "\n";
+    return 0;
 }
